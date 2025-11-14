@@ -1,9 +1,10 @@
+# -*- coding: utf-8 -*-
 """
 Servicio abstracto para Vector Search
 Soporta múltiples proveedores: Vertex AI Vector Search (GCP) y Azure AI Search
 """
 import os
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Any
 from abc import ABC, abstractmethod
 from dotenv import load_dotenv
 
@@ -14,7 +15,7 @@ class VectorSearchProvider(ABC):
     """Interfaz abstracta para proveedores de vector search"""
     
     @abstractmethod
-    def upsert_vectors(self, vectors: List[Dict[str, any]]) -> bool:
+    def upsert_vectors(self, vectors: List[Dict[str, Any]]) -> bool:
         """Insertar o actualizar vectores en el índice"""
         pass
     
@@ -23,7 +24,7 @@ class VectorSearchProvider(ABC):
         self,
         query_embedding: List[float],
         num_neighbors: int = 20,
-        filters: Optional[Dict[str, any]] = None
+        filters: Optional[Dict[str, Any]] = None
     ) -> List[Dict]:
         """Buscar vectores similares"""
         pass
@@ -67,7 +68,7 @@ class VertexAIVectorSearchProvider(VectorSearchProvider):
         except Exception as e:
             raise ValueError(f"Error inicializando Vertex AI Vector Search: {str(e)}")
     
-    def upsert_vectors(self, vectors: List[Dict[str, any]]) -> bool:
+    def upsert_vectors(self, vectors: List[Dict[str, Any]]) -> bool:
         """Insertar o actualizar vectores en Vertex AI Vector Search"""
         try:
             from google.cloud.aiplatform import matching_engine
@@ -90,7 +91,7 @@ class VertexAIVectorSearchProvider(VectorSearchProvider):
         self,
         query_embedding: List[float],
         num_neighbors: int = 20,
-        filters: Optional[Dict[str, any]] = None
+        filters: Optional[Dict[str, Any]] = None
     ) -> List[Dict]:
         """Buscar vectores similares en Vertex AI Vector Search"""
         try:
@@ -166,7 +167,7 @@ class AzureAISearchProvider(VectorSearchProvider):
         except Exception as e:
             raise ValueError(f"Error inicializando Azure AI Search: {str(e)}")
     
-    def upsert_vectors(self, vectors: List[Dict[str, any]]) -> bool:
+    def upsert_vectors(self, vectors: List[Dict[str, Any]]) -> bool:
         """Insertar o actualizar vectores en Azure AI Search"""
         try:
             documents = []
@@ -199,7 +200,7 @@ class AzureAISearchProvider(VectorSearchProvider):
         self,
         query_embedding: List[float],
         num_neighbors: int = 20,
-        filters: Optional[Dict[str, any]] = None
+        filters: Optional[Dict[str, Any]] = None
     ) -> List[Dict]:
         """Buscar vectores similares en Azure AI Search"""
         try:
@@ -278,7 +279,7 @@ class VectorSearchService:
         return cls._instance
     
     @classmethod
-    def upsert_vectors(cls, vectors: List[Dict[str, any]]) -> bool:
+    def upsert_vectors(cls, vectors: List[Dict[str, Any]]) -> bool:
         """Insertar o actualizar vectores"""
         provider = cls.get_provider()
         return provider.upsert_vectors(vectors)
@@ -288,7 +289,7 @@ class VectorSearchService:
         cls,
         query_embedding: List[float],
         num_neighbors: int = 20,
-        filters: Optional[Dict[str, any]] = None
+        filters: Optional[Dict[str, Any]] = None
     ) -> List[Dict]:
         """Buscar vectores similares"""
         provider = cls.get_provider()

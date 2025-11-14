@@ -1,9 +1,10 @@
+# -*- coding: utf-8 -*-
 """
 Servicio para integración con Google Cloud Pub/Sub
 """
 import os
 import json
-from typing import Dict, any
+from typing import Dict, Any
 from google.cloud import pubsub_v1
 from dotenv import load_dotenv
 
@@ -26,7 +27,7 @@ class PubSubService:
         self,
         product_id: str,
         event_type: str,
-        metadata: Dict[str, any] = None
+        metadata: Dict[str, Any] = None
     ):
         """
         Publicar evento de actualización de producto

@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
 """
 Servicio de búsqueda semántica
 """
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Any
 from bson import ObjectId
 
 from app.database import get_database
@@ -27,7 +28,7 @@ class SearchService:
         min_price: Optional[float] = None,
         max_price: Optional[float] = None,
         limit: int = 20
-    ) -> Dict[str, any]:
+    ) -> Dict[str, Any]:
         """
         Realizar búsqueda semántica de productos
         

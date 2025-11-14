@@ -1,8 +1,9 @@
+# -*- coding: utf-8 -*-
 """
 Servicio para integración con Vertex AI Embeddings y Vector Search
 """
 import os
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Any
 from google.cloud import aiplatform
 from google.cloud.aiplatform import matching_engine
 from google.cloud.aiplatform.matching_engine import MatchingEngineIndexEndpoint
@@ -94,7 +95,7 @@ class VertexAIService:
     
     def upsert_vectors(
         self,
-        vectors: List[Dict[str, any]]
+        vectors: List[Dict[str, Any]]
     ) -> bool:
         """
         Inserta o actualiza vectores en el índice
@@ -134,7 +135,7 @@ class VertexAIService:
         self,
         query_embedding: List[float],
         num_neighbors: int = 20,
-        filters: Optional[Dict[str, any]] = None
+        filters: Optional[Dict[str, Any]] = None
     ) -> List[Dict]:
         """
         Busca vectores similares

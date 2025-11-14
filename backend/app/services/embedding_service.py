@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Servicio abstracto para generación de embeddings
 Soporta múltiples proveedores: Vertex AI (GCP) y OpenAI

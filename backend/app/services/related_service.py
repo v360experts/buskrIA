@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Servicio para productos relacionados
 """
