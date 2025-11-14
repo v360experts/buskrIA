@@ -1,6 +1,17 @@
 # Backend - FastAPI Supermarket Search
 
-Backend del sistema de búsqueda semántica de productos.
+Backend del sistema de búsqueda semántica de productos con soporte **multi-nube**.
+
+## 🌐 Soporte Multi-Nube
+
+El backend soporta múltiples proveedores:
+
+- **Embeddings**: Vertex AI (GCP) o OpenAI
+- **Vector Search**: Vertex AI Vector Search (GCP) o Azure AI Search
+
+El sistema detecta automáticamente qué proveedor usar basado en las variables de entorno.
+
+**Ver:** `MULTI_CLOUD.md` para documentación completa.
 
 ## Instalación
 
@@ -23,16 +34,29 @@ cp .env.example .env
 
 ## Configuración
 
-### Variables de Entorno Requeridas
+### Variables de Entorno
 
+**MongoDB (requerido):**
 - `MONGODB_URI`: URI de conexión a MongoDB
 - `MONGODB_DB_NAME`: Nombre de la base de datos
+
+**Para GCP (Vertex AI):**
 - `GCP_PROJECT_ID`: ID del proyecto de GCP
 - `GCP_LOCATION`: Región de GCP (ej: us-central1)
-- `VECTOR_SEARCH_INDEX_ID`: ID del índice de Vector Search
 - `VECTOR_SEARCH_ENDPOINT_ID`: ID del endpoint de Vector Search
 - `VECTOR_SEARCH_DEPLOYED_INDEX_ID`: ID del índice desplegado
 - `GOOGLE_APPLICATION_CREDENTIALS`: Ruta al archivo JSON de credenciales
+
+**Para Azure:**
+- `AZURE_SEARCH_ENDPOINT`: Endpoint de Azure AI Search
+- `AZURE_SEARCH_API_KEY`: API key de Azure AI Search
+- `AZURE_SEARCH_INDEX_NAME`: Nombre del índice (default: products-index)
+
+**Para OpenAI (embeddings):**
+- `OPENAI_API_KEY`: API key de OpenAI
+- `OPENAI_EMBEDDING_MODEL`: Modelo a usar (default: text-embedding-3-small)
+
+Ver `env.example` para ejemplos completos.
 
 ## Ejecución
 

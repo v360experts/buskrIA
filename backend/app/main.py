@@ -9,6 +9,8 @@ from app.database import get_database
 from app.services.product_service import ProductService
 from app.services.search_service import SearchService
 from app.services.related_service import RelatedService
+from app.services.embedding_service import EmbeddingService
+from app.services.vector_search_service import VectorSearchService
 from app.models.product import Product, ProductCreate, ProductUpdate
 
 load_dotenv()
@@ -48,7 +50,26 @@ class SearchResponse(BaseModel):
 
 @app.get("/")
 async def root():
-    return {"message": "Supermarket Search API", "version": "1.0.0"}
+    """Información del API y proveedores configurados"""
+    try:
+        embedding_provider = type(EmbeddingService.get_provider()).__name__
+    except:
+        embedding_provider = "No configurado"
+    
+    try:
+        vector_provider = type(VectorSearchService.get_provider()).__name__
+    except:
+        vector_provider = "No configurado"
+    
+    return {
+        "message": "Supermarket Search API",
+        "version": "2.0.0",
+        "multi_cloud": True,
+        "providers": {
+            "embeddings": embedding_provider,
+            "vector_search": vector_provider
+        }
+    }
 
 
 @app.post("/products", response_model=Product)

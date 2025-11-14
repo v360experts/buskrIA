@@ -62,6 +62,19 @@ python -m tests.test_all
 
 Ver ejemplos de salida en `backend/tests/EXAMPLE_OUTPUT.md`
 
+## 🌐 Soporte Multi-Nube
+
+El proyecto soporta múltiples proveedores de nube:
+
+- **Embeddings**: Vertex AI (GCP) o OpenAI
+- **Vector Search**: Vertex AI Vector Search (GCP) o Azure AI Search
+
+El sistema detecta automáticamente qué proveedor usar basado en las variables de entorno.
+
+**Ver documentación completa:**
+- `backend/MULTI_CLOUD.md` - Guía de configuración multi-nube
+- `infrastructure/AZURE_SETUP.md` - Setup de Azure AI Search
+
 ## Mejoras y Optimizaciones
 
 Cada directorio incluye un archivo `IMPROVEMENTS.md` con recomendaciones profesionales:

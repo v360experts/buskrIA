@@ -8,7 +8,8 @@ from bson import ObjectId
 from app.database import get_database
 from app.models.product import Product, ProductCreate, ProductUpdate
 from app.utils.normalization import normalize_text
-from app.services.vertex_ai_service import VertexAIService
+from app.services.embedding_service import EmbeddingService
+from app.services.vector_search_service import VectorSearchService
 from app.services.pubsub_service import PubSubService
 
 
@@ -18,7 +19,6 @@ class ProductService:
     def __init__(self, db):
         self.db = db
         self.collection = db.products
-        self.vertex_ai = VertexAIService()
         self.pubsub = PubSubService()
     
     async def create_product(self, product_data: ProductCreate) -> Product:
@@ -143,8 +143,8 @@ class ProductService:
             ]
             text = " ".join(filter(None, text_parts))
             
-            # Generar embedding
-            embedding = self.vertex_ai.get_embedding(text)
+            # Generar embedding usando el servicio unificado
+            embedding = EmbeddingService.get_embedding(text)
             
             # Preparar metadata
             metadata = {
@@ -152,8 +152,8 @@ class ProductService:
                 "brand": product_doc.get("brand", ""),
             }
             
-            # Upsert en Vector Search
-            self.vertex_ai.upsert_vectors([{
+            # Upsert en Vector Search usando el servicio unificado
+            VectorSearchService.upsert_vectors([{
                 "id": product_id,
                 "embedding": embedding,
                 "metadata": metadata

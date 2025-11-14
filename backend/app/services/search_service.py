@@ -8,7 +8,8 @@ from app.database import get_database
 from app.models.product import Product
 from app.utils.normalization import normalize_text, expand_query
 from app.utils.ranking import rank_products
-from app.services.vertex_ai_service import VertexAIService
+from app.services.embedding_service import EmbeddingService
+from app.services.vector_search_service import VectorSearchService
 
 
 class SearchService:
@@ -17,7 +18,6 @@ class SearchService:
     def __init__(self, db):
         self.db = db
         self.collection = db.products
-        self.vertex_ai = VertexAIService()
     
     async def search(
         self,
@@ -45,8 +45,8 @@ class SearchService:
         # Normalizar query
         normalized_query = normalize_text(query)
         
-        # Generar embedding de la query
-        query_embedding = self.vertex_ai.get_embedding(normalized_query)
+        # Generar embedding de la query usando el servicio unificado
+        query_embedding = EmbeddingService.get_embedding(normalized_query)
         
         # Preparar filtros
         filters = {}
@@ -55,11 +55,11 @@ class SearchService:
         if brand:
             filters["brand"] = normalize_text(brand)
         
-        # Buscar en Vector Search
-        vector_results = self.vertex_ai.search_vectors(
+        # Buscar en Vector Search usando el servicio unificado
+        vector_results = VectorSearchService.search_vectors(
             query_embedding=query_embedding,
             num_neighbors=limit * 2,  # Buscar más para aplicar filtros
-            filters=filters
+            filters=filters if filters else None
         )
         
         # Obtener IDs de productos

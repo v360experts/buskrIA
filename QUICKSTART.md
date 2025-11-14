@@ -29,17 +29,38 @@ cp .env.example .env
 
 ### Variables de entorno necesarias:
 
+**Opción 1: GCP (Google Cloud Platform)**
 ```env
 MONGODB_URI=mongodb://localhost:27017
 MONGODB_DB_NAME=supermarket_db
 GCP_PROJECT_ID=tu-proyecto-id
 GCP_LOCATION=us-central1
-VECTOR_SEARCH_INDEX_ID=tu-index-id
 VECTOR_SEARCH_ENDPOINT_ID=tu-endpoint-id
 VECTOR_SEARCH_DEPLOYED_INDEX_ID=tu-deployed-index-id
-PUBSUB_TOPIC_PRODUCT_UPDATES=product-updates
 GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account.json
 ```
+
+**Opción 2: Azure + OpenAI**
+```env
+MONGODB_URI=mongodb://localhost:27017
+MONGODB_DB_NAME=supermarket_db
+OPENAI_API_KEY=sk-tu-api-key
+AZURE_SEARCH_ENDPOINT=https://tu-servicio.search.windows.net
+AZURE_SEARCH_API_KEY=tu-api-key
+AZURE_SEARCH_INDEX_NAME=products-index
+```
+
+**Opción 3: Híbrido (OpenAI embeddings + Azure Vector Search)**
+```env
+MONGODB_URI=mongodb://localhost:27017
+MONGODB_DB_NAME=supermarket_db
+OPENAI_API_KEY=sk-tu-api-key
+AZURE_SEARCH_ENDPOINT=https://tu-servicio.search.windows.net
+AZURE_SEARCH_API_KEY=tu-api-key
+AZURE_SEARCH_INDEX_NAME=products-index
+```
+
+Ver `backend/MULTI_CLOUD.md` para más detalles sobre configuración multi-nube.
 
 ## Paso 2: Configurar GCP
 

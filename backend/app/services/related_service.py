@@ -6,7 +6,8 @@ from bson import ObjectId
 
 from app.database import get_database
 from app.models.product import Product
-from app.services.vertex_ai_service import VertexAIService
+from app.services.embedding_service import EmbeddingService
+from app.services.vector_search_service import VectorSearchService
 
 
 class RelatedService:
@@ -15,7 +16,6 @@ class RelatedService:
     def __init__(self, db):
         self.db = db
         self.collection = db.products
-        self.vertex_ai = VertexAIService()
     
     async def get_related_products(
         self,
@@ -47,11 +47,11 @@ class RelatedService:
         ]
         text = " ".join(filter(None, text_parts))
         
-        # Generar embedding del producto
-        product_embedding = self.vertex_ai.get_embedding(text)
+        # Generar embedding del producto usando el servicio unificado
+        product_embedding = EmbeddingService.get_embedding(text)
         
-        # Buscar productos similares
-        vector_results = self.vertex_ai.search_vectors(
+        # Buscar productos similares usando el servicio unificado
+        vector_results = VectorSearchService.search_vectors(
             query_embedding=product_embedding,
             num_neighbors=limit + 1  # +1 porque el mismo producto aparecerá
         )
